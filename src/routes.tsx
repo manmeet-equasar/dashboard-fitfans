@@ -7,6 +7,8 @@ import {
   MdOutlineShoppingCart,
 } from 'react-icons/md';
 
+import { PiUsersBold } from 'react-icons/pi';
+
 // Admin Imports
 // import MainDashboard from './pages/admin/default';
 // import NFTMarketplace from './pages/admin/nft-marketplace';
@@ -45,24 +47,32 @@ const routes: IRoute[] = [
     icon: <Icon as={MdBarChart} width="20px" height="20px" color="inherit" />,
     path: '/data-tables',
   },
+  // {
+  //   name: 'Profile',
+  //   layout: '/admin',
+  //   path: '/profile',
+  //   icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+  // },
+
   {
-    name: 'Profile',
+    name: 'Users',
     layout: '/admin',
-    path: '/profile',
-    icon: <Icon as={MdPerson} width="20px" height="20px" color="inherit" />,
+    path: '/users',
+    icon: <Icon as={PiUsersBold} width="20px" height="20px" color="inherit" />,
   },
-  {
-    name: 'Sign In',
-    layout: '/auth',
-    path: '/sign-in',
-    icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
-  },
-  {
-    name: 'RTL Admin',
-    layout: '/rtl',
-    path: '/rtl-default',
-    icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
-  },
+
+  // {
+  //   name: 'Sign In',
+  //   layout: '/auth',
+  //   path: '/sign-in',
+  //   icon: <Icon as={MdLock} width="20px" height="20px" color="inherit" />,
+  // },
+  // {
+  //   name: 'RTL Admin',
+  //   layout: '/rtl',
+  //   path: '/rtl-default',
+  //   icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
+  // },
 ];
 
 export default routes;

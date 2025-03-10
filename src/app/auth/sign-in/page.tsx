@@ -1,29 +1,6 @@
 'use client';
-/* eslint-disable */
-/*!
-  _   _  ___  ____  ___ ________  _   _   _   _ ___   
- | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
- | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
- |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
- |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
-                                                                                                                                                                                                                                                                                                                                       
-=========================================================
-* Horizon UI - v1.1.0
-=========================================================
 
-* Product Page: https://www.horizon-ui.com/
-* Copyright 2022 Horizon UI (https://www.horizon-ui.com/)
-
-* Designed and Coded by Simmmple
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
-import React from 'react';
-// Chakra imports
+import React, { use } from 'react';
 import {
   Box,
   Button,
@@ -39,6 +16,7 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 // Custom components
 import { HSeparator } from 'components/separator/Separator';
 import DefaultAuthLayout from 'layouts/auth/Default';
@@ -47,7 +25,9 @@ import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
 import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import { RiEyeCloseLine } from 'react-icons/ri';
-
+import { useAuth } from 'contexts/AuthContext';
+import useAdminAuth from 'app/hooks/useAdminAuth';
+import { useRouter } from 'next/navigation';
 export default function SignIn() {
   // Chakra color mode
   const textColor = useColorModeValue('navy.700', 'white');
@@ -67,6 +47,34 @@ export default function SignIn() {
   );
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
+  const { setLogedIn } = useAuth();
+  const { signIn } = useAdminAuth();
+
+  const [inputEmail, setInputEmail] = useState<string>('');
+
+  const router = useRouter();
+
+  const [inputPassword, setInputPassword] = useState<string>('');
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputPassword(e.target.value);
+  };
+
+  const signInAdmin = async () => {
+    if (inputEmail === '' || inputPassword === '') return;
+
+    const response = await signIn(inputEmail, inputPassword);
+
+    if (response) setLogedIn(true);
+    console.log(response);
+
+    router.push('/admin/default');
+  };
+
   return (
     <DefaultAuthLayout illustrationBackground={'/img/auth/auth.png'}>
       <Flex
@@ -124,6 +132,7 @@ export default function SignIn() {
             <Icon as={FcGoogle} w="20px" h="20px" me="10px" />
             Sign in with Google
           </Button>
+
           <Flex align="center" mb="25px">
             <HSeparator />
             <Text color="gray.400" mx="14px">
@@ -131,6 +140,7 @@ export default function SignIn() {
             </Text>
             <HSeparator />
           </Flex>
+
           <FormControl>
             <FormLabel
               display="flex"
@@ -148,10 +158,12 @@ export default function SignIn() {
               fontSize="sm"
               ms={{ base: '0px', md: '0px' }}
               type="email"
-              placeholder="mail@simmmple.com"
+              placeholder="mail@fitfans.com"
               mb="24px"
               fontWeight="500"
               size="lg"
+              value={inputEmail}
+              onChange={handleEmailChange}
             />
             <FormLabel
               ms="4px"
@@ -171,6 +183,8 @@ export default function SignIn() {
                 size="lg"
                 type={show ? 'text' : 'password'}
                 variant="auth"
+                value={inputPassword}
+                onChange={handlePasswordChange}
               />
               <InputRightElement display="flex" alignItems="center" mt="4px">
                 <Icon
@@ -216,6 +230,7 @@ export default function SignIn() {
               w="100%"
               h="50"
               mb="24px"
+              onClick={() => signInAdmin()}
             >
               Sign In
             </Button>
@@ -227,7 +242,7 @@ export default function SignIn() {
             maxW="100%"
             mt="0px"
           >
-            <Link href="/auth/sign-up">
+            {/* <Link href="/auth/sign-up">
               <Text color={textColorDetails} fontWeight="400" fontSize="14px">
                 Not registered yet?
                 <Text
@@ -239,7 +254,7 @@ export default function SignIn() {
                   Create an Account
                 </Text>
               </Text>
-            </Link>
+            </Link> */}
           </Flex>
         </Flex>
       </Flex>

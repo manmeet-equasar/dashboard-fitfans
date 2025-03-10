@@ -84,6 +84,7 @@ export default function AdminLayout(props: DashboardLayoutProps) {
           >
             {children}
           </Box>
+
           <Box>
             <Footer />
           </Box>
